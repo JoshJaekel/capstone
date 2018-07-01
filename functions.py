@@ -116,12 +116,12 @@ def findHoughlines(mask,thresh1,thresh2):
 			else:
 				thresh=thresh+10
 			if (thresh==180):
-				print "Your image sucks"
+				#print "Your image sucks"
 				break
 		else:
 			thresh=thresh+10
 		if (thresh==180):
-				print "Your image sucks"
+				#print "Your image sucks"
 				break
 
 
@@ -161,7 +161,7 @@ def square_to_num(square_string):
 
 def piece_in_square(square):
 
-	if (np.average(square))<(0.1*255):
+	if (np.average(square)<(0.1*255)):
 		return False
 	else:
 		return True
@@ -178,10 +178,8 @@ def findPieces(color):
 		
 	mask = cv2.inRange(hsv, lower_red, upper_red)
 	res = cv2.bitwise_and(img,img, mask= mask)
+	
 
-	# cv2.imshow('dst',mask)
-	# if cv2.waitKey(0) & 0xff == 27:
-	# 	cv2.destroyAllWindows()
 
 	thresh1=50
 	thresh2=50
@@ -245,15 +243,17 @@ def findPieces(color):
 
 	warped=cv2.warpPerspective(img,perspective,(image_side_length-1,image_side_length-1))
 
-
+	# cv2.imshow('dst',warped)
+	# if cv2.waitKey(0) & 0xff == 27:
+	# 	cv2.destroyAllWindows()
 
 
 	hsv2 = cv2.cvtColor(warped, cv2.COLOR_BGR2HSV)
 	lower_blue = np.array([100,50,50])
-	upper_blue = np.array([120, 255, 255])
+	upper_blue = np.array([105, 255, 255])
 
-	lower_orange = np.array([0,100,100])
-	upper_orange = np.array([20,255,255])
+	lower_orange = np.array([5,100,100])
+	upper_orange = np.array([10,255,255])
 		
 	blueMask = cv2.inRange(hsv2, lower_blue, upper_blue)
 	orangeMask = cv2.inRange(hsv2,lower_orange, upper_orange)
@@ -277,9 +277,7 @@ def findPieces(color):
 	# 	plt.imshow(list_of_images_orange[x],cmap='gray')
 	# plt.show()
 
-	# cv2.imshow('dst',list_of_images_blue[50])
-	# if cv2.waitKey(0) & 0xff == 27:
-	# 	cv2.destroyAllWindows()
+
 
 	opponent_location=[]
 	if (color==0):
@@ -291,5 +289,11 @@ def findPieces(color):
 			if (piece_in_square(square)):
 				opponent_location.append(index)
 
+	# fig1=plt.figure()
+	# #plt.imshow(cv2.cvtColor(img,cv2.COLOR_BGR2RGB))
+	# plt.imshow(blueMask,cmap='gray')
+	# plt.show()
+
 	return opponent_location
 
+#findPieces(1)
