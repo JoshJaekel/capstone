@@ -208,9 +208,9 @@ def findPieces(color):
 
 	# 	cv2.line(img,(x1,y1),(x2,y2),(0,0,255),2)
 
-	# # cv2.imshow('dst',mask)
-	# # if cv2.waitKey(0) & 0xff == 27:
-	# # 	cv2.destroyAllWindows()
+	# cv2.imshow('dst',mask)
+	# if cv2.waitKey(0) & 0xff == 27:
+	# 	cv2.destroyAllWindows()
 
 	# cv2.imshow('dst',img)
 	# if cv2.waitKey(0) & 0xff == 27:
@@ -249,11 +249,11 @@ def findPieces(color):
 
 
 	hsv2 = cv2.cvtColor(warped, cv2.COLOR_BGR2HSV)
-	lower_blue = np.array([100,50,50])
-	upper_blue = np.array([105, 255, 255])
+	lower_blue = np.array([95,50,50])
+	upper_blue = np.array([100, 255, 255])
 
-	lower_orange = np.array([5,100,100])
-	upper_orange = np.array([10,255,255])
+	lower_orange = np.array([10,100,100])
+	upper_orange = np.array([15,255,255])
 		
 	blueMask = cv2.inRange(hsv2, lower_blue, upper_blue)
 	orangeMask = cv2.inRange(hsv2,lower_orange, upper_orange)
@@ -287,7 +287,7 @@ def findPieces(color):
 	else:
 		for index,square in enumerate(list_of_images_blue):
 			if (piece_in_square(square)):
-				opponent_location.append(index)
+				opponent_location.append(63-index)
 
 	# fig1=plt.figure()
 	# #plt.imshow(cv2.cvtColor(img,cv2.COLOR_BGR2RGB))
@@ -296,4 +296,4 @@ def findPieces(color):
 
 	return opponent_location
 
-#findPieces(1)
+# findPieces(1)
