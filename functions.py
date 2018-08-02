@@ -173,13 +173,19 @@ def findPieces(color):
 	img=take_picture("_",False)
 
 	hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-	lower_red = np.array([-10,100,100])
-	upper_red = np.array([10,255,255])
+	lower_red = np.array([0,50,50])
+	upper_red = np.array([5,255,255])
 		
 	mask = cv2.inRange(hsv, lower_red, upper_red)
 	res = cv2.bitwise_and(img,img, mask= mask)
 	
+	# cv2.imshow('dst',mask)
+	# if cv2.waitKey(0) & 0xff == 27:
+	# 	cv2.destroyAllWindows()
 
+	# cv2.imshow('dst',mask)
+	# if cv2.waitKey(0) & 0xff == 27:
+	# 	cv2.destroyAllWindows()
 
 	thresh1=50
 	thresh2=50
@@ -208,9 +214,7 @@ def findPieces(color):
 
 	# 	cv2.line(img,(x1,y1),(x2,y2),(0,0,255),2)
 
-	# cv2.imshow('dst',mask)
-	# if cv2.waitKey(0) & 0xff == 27:
-	# 	cv2.destroyAllWindows()
+
 
 	# cv2.imshow('dst',img)
 	# if cv2.waitKey(0) & 0xff == 27:
@@ -243,26 +247,27 @@ def findPieces(color):
 
 	warped=cv2.warpPerspective(img,perspective,(image_side_length-1,image_side_length-1))
 
-	# cv2.imshow('dst',warped)
-	# if cv2.waitKey(0) & 0xff == 27:
-	# 	cv2.destroyAllWindows()
 
 
 	hsv2 = cv2.cvtColor(warped, cv2.COLOR_BGR2HSV)
-	lower_blue = np.array([95,50,50])
-	upper_blue = np.array([100, 255, 255])
+	lower_blue = np.array([90,50,50])
+	upper_blue = np.array([107, 255, 255])
 
-	lower_orange = np.array([10,100,100])
-	upper_orange = np.array([15,255,255])
+	lower_orange = np.array([0,100,100])
+	upper_orange = np.array([50,255,255])
 		
 	blueMask = cv2.inRange(hsv2, lower_blue, upper_blue)
 	orangeMask = cv2.inRange(hsv2,lower_orange, upper_orange)
 
-	
-
 	list_of_images=extract_squares(warped)
 	list_of_images_blue=extract_squares_mask(blueMask)
 	list_of_images_orange=extract_squares_mask(orangeMask)
+
+
+	# cv2.imshow('dst',orangeMask)
+	# if cv2.waitKey(0) & 0xff == 27:
+	# 	cv2.destroyAllWindows()
+
 
 	# fig=plt.figure()
 	# for x in range(64):

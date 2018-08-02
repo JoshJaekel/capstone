@@ -51,7 +51,14 @@ void setup() {
   pwm.setPWM(2, 0, 250);
 
   pinMode(7, OUTPUT);
-  digitalWrite(7,LOW);      
+  digitalWrite(7,LOW);  
+
+  pinMode(2, OUTPUT);
+  digitalWrite(2,LOW);  
+  
+  pinMode(4, OUTPUT);
+  digitalWrite(4,LOW);  
+  
   delay(3000);
 }
 
@@ -70,7 +77,7 @@ void setServoPulse(uint8_t n, double pulse) {
   Serial.println(pulse);
   pwm.setPWM(n, 0, pulse);
 }
-int yt_int1,xt_int1,yt_int2,xt_int2,yt_int3,xt_int3,xt_int4,yt_int4, type; 
+int yt_int1,xt_int1,yt_int2,xt_int2,yt_int3,xt_int3,xt_int4,yt_int4, type, type_raw; 
 int pickup = 362, top=250;
 long to_move,to_move2, to_move3, from_move,from_temp;
 void loop() {
@@ -82,8 +89,9 @@ void loop() {
   Serial.println("ready");
   while (Serial.available()==0);
   to_move=Serial.parseInt();
-
-  type=from_move/1000000;
+  digitalWrite(4,LOW);
+  type_raw=from_move/1000000;
+  type=type_raw/2;
   from_temp=from_move%1000000;
   xt_int1=from_temp%1000;
   yt_int1=from_temp/1000;
@@ -109,6 +117,9 @@ void loop() {
     pwm.setPWM(2,0,pickup);
     delay(3000);
     digitalWrite(7, LOW);
+    if(type_raw%2==1){
+      digitalWrite(4,HIGH); //check
+    }
     delay(500);
     pwm.setPWM(2,0,top);
     delay(3000);
@@ -152,6 +163,9 @@ void loop() {
       pwm.setPWM(2,0,pickup);
       delay(3000);
       digitalWrite(7, LOW);
+      if(type_raw%2==1){
+        digitalWrite(4,HIGH); //check
+      }
       delay(500);
       pwm.setPWM(2,0,top);
       delay(3000);
@@ -172,13 +186,7 @@ void loop() {
       xt_int4=to_move3%1000;
       yt_int4=to_move3/1000;
 
-//      Serial.println(xt_int1);
-//      Serial.println(yt_int1);
-//      Serial.println(xt_int2);
-//      Serial.println(yt_int2);
-      
-      
-      //Starts moving
+            //Starts moving
       pwm.setPWM(0, 0, xt_int1);
       pwm.setPWM(1, 0, yt_int1);
       delay(3000);
@@ -218,6 +226,123 @@ void loop() {
       pwm.setPWM(1, 0, 575);
       pwm.setPWM(0,0,390);
   }
+
+      
+
+    if (type==4){
+      Serial.println("ready");
+      while (Serial.available()==0);
+      to_move2=Serial.parseInt();
+      xt_int3=to_move2%1000;
+      yt_int3=to_move2/1000;
+      pwm.setPWM(0, 0, xt_int2);
+      pwm.setPWM(1, 0, yt_int2);
+      delay(4000);
+      pwm.setPWM(2,0,pickup);
+      delay(3000);
+      digitalWrite(7, HIGH);
+      delay(500);
+      pwm.setPWM(2,0,top);
+      delay(3000);
+      pwm.setPWM(1, 0, 575);
+      pwm.setPWM(0,0,390);
+      delay(5000);
+      digitalWrite(7, LOW);
+      delay(500);
+      
+      pwm.setPWM(0, 0, xt_int1);
+      pwm.setPWM(1, 0, yt_int1);
+      delay(4000);
+      pwm.setPWM(2,0,pickup);
+      delay(3000);
+      digitalWrite(7, HIGH);
+      delay(500);
+      pwm.setPWM(2,0,top);
+      delay(2000);
+      pwm.setPWM(1, 0, 575);
+      pwm.setPWM(0,0,390);
+      delay(5000);
+      digitalWrite(7, LOW);
+      delay(500);
+      //Go to queen
+      pwm.setPWM(1, 0, 418);
+      pwm.setPWM(0,0,577);
+      delay(5000);
+      pwm.setPWM(2,0,383);
+      delay(3000);
+      digitalWrite(7, HIGH);
+      delay(500);
+      pwm.setPWM(2,0,top);
+      delay(2000);
+      pwm.setPWM(0, 0, xt_int3);
+      pwm.setPWM(1, 0, yt_int3);
+      delay(5000);
+      pwm.setPWM(2,0,pickup);
+      delay(3000);
+      digitalWrite(7, LOW);
+      if(type_raw%2==1){
+        digitalWrite(4,HIGH); //check
+      }
+      delay(500);
+      pwm.setPWM(2,0,top);
+      delay(3000);
+      pwm.setPWM(1, 0, 575);
+      pwm.setPWM(0,0,390);
+    }
+
+
+    if (type==5){
+
+      pwm.setPWM(0, 0, xt_int1);
+      pwm.setPWM(1, 0, yt_int1);
+      delay(4000);
+      pwm.setPWM(2,0,pickup);
+      delay(3000);
+      digitalWrite(7, HIGH);
+      delay(500);
+      pwm.setPWM(2,0,top);
+      delay(2000);
+      pwm.setPWM(1, 0, 575);
+      pwm.setPWM(0,0,390);
+      delay(5000);
+      digitalWrite(7, LOW);
+      delay(500);
+      //Go to queen
+      pwm.setPWM(1, 0, 418);
+      pwm.setPWM(0,0,577);
+      delay(5000);
+      pwm.setPWM(2,0,383);
+      delay(3000);
+      digitalWrite(7, HIGH);
+      delay(500);
+      pwm.setPWM(2,0,top);
+      delay(2000);
+      pwm.setPWM(0, 0, xt_int2);
+      pwm.setPWM(1, 0, yt_int2);
+      delay(5000);
+      pwm.setPWM(2,0,pickup);
+      delay(3000);
+      digitalWrite(7, LOW);
+      if(type_raw%2==1){
+        digitalWrite(4,HIGH); //check
+      }
+      delay(500);
+      pwm.setPWM(2,0,top);
+      delay(3000);
+      pwm.setPWM(1, 0, 575);
+      pwm.setPWM(0,0,390);
+    }
+
+    if(type==6){
+      digitalWrite(2,HIGH);
+    }
+//      Serial.println(xt_int1);
+//      Serial.println(yt_int1);
+//      Serial.println(xt_int2);
+//      Serial.println(yt_int2);
+      
+      
+
 
   Serial.println("done");
 //  Serial.println("Enter y-position: ");
